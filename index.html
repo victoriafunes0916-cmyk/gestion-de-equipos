@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Control de Equipos</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header class="encabezado">
+        <p class="etiqueta">INVENTARIO DIGITAL</p>
+
+        <h1>Control de Equipos</h1>
+
+        <p class="subtitulo">
+            Panel para registrar y administrar dispositivos informáticos.
+        </p>
+    </header>
+
+
+    <main class="contenedor">
+
+        <!-- FORMULARIO -->
+        <section class="panel">
+
+            <h2 id="form-title">Agregar dispositivo</h2>
+
+            <p class="ayuda">
+                Completá los datos del equipo que querés guardar.
+            </p>
+
+            <form id="equipo-form">
+
+                <div class="grid-form">
+
+                    <div class="campo">
+                        <label for="tipo">Categoría</label>
+
+                        <select id="tipo" required>
+                            <option value="">Seleccionar...</option>
+                            <option value="Notebook">Notebook</option>
+                            <option value="PC de escritorio">
+                                PC de escritorio
+                            </option>
+                            <option value="Tablet">Tablet</option>
+                            <option value="Servidor">Servidor</option>
+                        </select>
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="titular">Responsable</label>
+
+                        <input
+                            type="text"
+                            id="titular"
+                            placeholder="Nombre del responsable"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="marca">Fabricante</label>
+
+                        <input
+                            type="text"
+                            id="marca"
+                            placeholder="Ej.: Lenovo"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="procesador">Procesador</label>
+
+                        <input
+                            type="text"
+                            id="procesador"
+                            placeholder="Ej.: Intel Core i5"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="ram">Memoria RAM</label>
+
+                        <input
+                            type="text"
+                            id="ram"
+                            placeholder="Ej.: 8 GB"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="almacenamiento">
+                            Almacenamiento
+                        </label>
+
+                        <input
+                            type="text"
+                            id="almacenamiento"
+                            placeholder="Ej.: 512 GB SSD"
+                            required
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="video">Gráficos</label>
+
+                        <input
+                            type="text"
+                            id="video"
+                            placeholder="Ej.: Intel UHD"
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="pulgadas">Pantalla</label>
+
+                        <input
+                            type="text"
+                            id="pulgadas"
+                            placeholder="Ej.: 15.6 pulgadas"
+                        >
+                    </div>
+
+
+                    <div class="campo">
+                        <label for="estado">
+                            Situación actual
+                        </label>
+
+                        <select id="estado">
+
+                            <option value="Operativo">
+                                Disponible
+                            </option>
+
+                            <option value="En reparación">
+                                En mantenimiento
+                            </option>
+
+                            <option value="Descartado">
+                                Fuera de servicio
+                            </option>
+
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="botones-form">
+
+                    <button
+                        type="submit"
+                        class="btn principal"
+                        id="btn-guardar"
+                    >
+                        Guardar dispositivo
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn secundario oculto"
+                        id="btn-cancelar"
+                    >
+                        Cancelar edición
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- RESUMEN -->
+        <section class="resumen">
+
+            <div class="tarjeta">
+                <span>Total</span>
+                <strong id="contador-total">0</strong>
+            </div>
+
+
+            <div class="tarjeta">
+                <span>Disponibles</span>
+                <strong id="contador-operativo">0</strong>
+            </div>
+
+
+            <div class="tarjeta">
+                <span>En mantenimiento</span>
+                <strong id="contador-reparacion">0</strong>
+            </div>
+
+
+            <div class="tarjeta">
+                <span>Fuera de servicio</span>
+                <strong id="contador-descartado">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- LISTADO -->
+        <section class="panel">
+
+            <div class="cabecera-lista">
+
+                <div>
+
+                    <h2>Consultar inventario</h2>
+
+                    <p class="ayuda">
+                        Buscá o filtrá los dispositivos registrados.
+                    </p>
+
+                </div>
+
+
+                <div class="botones-respaldo">
+
+                    <button
+                        type="button"
+                        class="btn respaldo"
+                        id="btn-exportar"
+                    >
+                        Exportar datos
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="btn respaldo"
+                        id="btn-importar"
+                    >
+                        Importar datos
+                    </button>
+
+
+                    <input
+                        type="file"
+                        id="input-importar"
+                        accept=".json"
+                        hidden
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTROS -->
+            <div class="filtros">
+
+                <div class="campo">
+
+                    <label for="buscador">
+                        Buscar
+                    </label>
+
+                    <input
+                        type="search"
+                        id="buscador"
+                        placeholder="Responsable, marca, procesador..."
+                    >
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="filtro-tipo">
+                        Categoría
+                    </label>
+
+                    <select id="filtro-tipo">
+
+                        <option value="">Todas</option>
+
+                        <option value="Notebook">
+                            Notebook
+                        </option>
+
+                        <option value="PC de escritorio">
+                            PC de escritorio
+                        </option>
+
+                        <option value="Tablet">
+                            Tablet
+                        </option>
+
+                        <option value="Servidor">
+                            Servidor
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label for="filtro-estado">
+                        Situación
+                    </label>
+
+                    <select id="filtro-estado">
+
+                        <option value="">Todas</option>
+
+                        <option value="Operativo">
+                            Disponible
+                        </option>
+
+                        <option value="En reparación">
+                            En mantenimiento
+                        </option>
+
+                        <option value="Descartado">
+                            Fuera de servicio
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <!-- TABLA -->
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Categoría</th>
+                            <th>Responsable</th>
+                            <th>Fabricante</th>
+                            <th>Procesador</th>
+                            <th>RAM</th>
+                            <th>Almacenamiento</th>
+                            <th>Gráficos</th>
+                            <th>Pantalla</th>
+                            <th>Situación</th>
+                            <th>Acciones</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="cuerpo-tabla">
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    id="sin-equipos"
+                    class="sin-datos oculto"
+                >
+                    No hay dispositivos que coincidan con la búsqueda.
+                </div>
+
+            </div>
+
+
+            <p
+                id="contador"
+                class="contador"
+            >
+                0 dispositivos
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Proyecto escolar - Gestión de dispositivos informáticos
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
